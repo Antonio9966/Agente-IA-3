@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antonio IA · Extractor Científico de Literatura y Matrices</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <!-- Top Navigation & Badges (Matching Image 2) -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <span class="brand-title">Antonio IA</span>
+          <span class="brand-subtitle">Extractor Científico & Matriz Académica</span>
+        </div>
+      </div>
+
+      <!-- Reference Badges (From Image 2 top bar) -->
+      <div class="badges-group">
+        <div class="nav-badge badge-blue">
+          <span class="badge-icon">📘</span>
+          <span>Normas APA 7 · IEEE · Vancouver</span>
+        </div>
+        <div class="nav-badge badge-purple">
+          <span class="badge-icon">🧠</span>
+          <span>Extracción con IA (Modelos, Algoritmos, Técnicas)</span>
+        </div>
+        <div class="nav-badge badge-cyan">
+          <span class="badge-icon">📄</span>
+          <span>Exportación Word (.docx) & Excel (.xlsx)</span>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="nav-actions">
+        <button id="btnOpenGroqModal" class="btn-groq-status" title="Configurar Groq API Key">
+          <span class="status-dot dot-yellow" id="groqStatusDot"></span>
+          <span id="groqStatusText">Groq API</span>
+        </button>
+        <button id="btnLoadSample" class="btn-sample" title="Cargar ejemplo exacto de la Imagen 1">
+          <span>⚡ Cargar Ejemplo (Imagen 1)</span>
+        </button>
+        <button id="btnOpenGitModal" class="btn-ghost" title="Instrucciones para Git y Render">
+          <span>🚀 Git & Render</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Step Tabs Navigation (From Image 2) -->
+  <nav class="steps-nav-wrapper">
+    <div class="steps-container">
+      <button class="step-tab active" data-tab="tab-search" id="tabSearchBtn">
+        <span class="step-icon">🔍</span>
+        <span class="step-label">Búsqueda Científica</span>
+      </button>
+      <button class="step-tab" data-tab="tab-extract" id="tabExtractBtn">
+        <span class="step-icon">⚙️</span>
+        <span class="step-label">Extracción & Citación</span>
+        <span class="tab-count-badge" id="selectedBadge">0</span>
+      </button>
+      <button class="step-tab" data-tab="tab-matrix" id="tabMatrixBtn">
+        <span class="step-icon">📊</span>
+        <span class="step-label">Matriz & Documentos</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="main-content">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: BÚSQUEDA CIENTÍFICA (Image 2)       -->
+    <!-- ========================================== -->
+    <section id="tab-search" class="tab-pane active">
+      <div class="card search-card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h1 class="card-title">
+              <span class="title-icon">🔎</span>
+              Explorador de Literatura Científica
+            </h1>
+            <p class="card-subtitle">
+              Búsqueda simultánea en OpenAlex y Crossref con expansión semántica impulsada por IA.
+            </p>
+          </div>
+        </div>
+
+        <form id="searchForm" class="search-form">
+          <!-- Research Topic / Keywords -->
+          <div class="form-group">
+            <label for="topicInput" class="form-label">
+              Tema de investigación o palabras clave
+            </label>
+            <textarea 
+              id="topicInput" 
+              class="form-control topic-textarea" 
+              rows="3" 
+              placeholder="Ej: Técnicas y algoritmos en deserción universitaria o Reiki en estudiantes universitarios..."
+              required
+            >Técnicas y algoritmos en deserción universitaria</textarea>
+            
+            <div class="quick-chips">
+              <span class="chip-label">Sugerencias rápidas:</span>
+              <button type="button" class="chip" data-query="Técnicas y algoritmos en deserción universitaria">🎓 Deserción universitaria (IA & Algoritmos)</button>
+              <button type="button" class="chip" data-query="Reiki en estudiantes universitarios">🧘 Reiki en estudiantes universitarios</button>
+              <button type="button" class="chip" data-query="Machine learning models for student attrition prediction">🤖 Student Attrition ML Models</button>
+              <button type="button" class="chip" data-query="Algoritmos de aprendizaje automático en diagnóstico médico">🩺 Algoritmos en Diagnóstico Médico</button>
+            </div>
+          </div>
+
+          <!-- Filters Row (From Image 2) -->
+          <div class="form-row-filters">
+            <div class="filter-col">
+              <label for="yearFromInput" class="form-label">Año Desde</label>
+              <input type="number" id="yearFromInput" class="form-control" value="2020" min="1990" max="2026">
+            </div>
+
+            <div class="filter-col">
+              <label for="yearToInput" class="form-label">Año Hasta</label>
+              <input type="number" id="yearToInput" class="form-control" value="2026" min="1990" max="2026">
+            </div>
+
+            <div class="filter-col">
+              <label for="languageSelect" class="form-label">Idioma</label>
+              <select id="languageSelect" class="form-control">
+                <option value="es" selected>Español</option>
+                <option value="en">Inglés</option>
+                <option value="all">Todos</option>
+              </select>
+            </div>
+
+            <div class="filter-col">
+              <label for="articlesPerSourceInput" class="form-label">Artículos por fuente</label>
+              <input type="number" id="articlesPerSourceInput" class="form-control" value="25" min="5" max="50">
+            </div>
+          </div>
+
+          <!-- Checkboxes Options (From Image 2) -->
+          <div class="form-row-checkboxes">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="expandQueryCheck" checked>
+              <span class="checkmark"></span>
+              <span class="checkbox-text">Ampliar consulta con Antonio IA (IA Semántica Groq)</span>
+            </label>
+
+            <label class="custom-checkbox">
+              <input type="checkbox" id="requireDoiCheck" checked>
+              <span class="checkmark"></span>
+              <span class="checkbox-text">Exigir DOI o URL verificable</span>
+            </label>
+          </div>
+
+          <!-- Submit Button (From Image 2) -->
+          <div class="form-actions">
+            <button type="submit" id="btnSearch" class="btn-primary btn-search-hero">
+              <span class="btn-icon">🔍</span>
+              <span class="btn-text">Buscar Literatura Científica</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Success Notification Alert (Matching Image 2) -->
+      <div id="searchSuccessAlert" class="alert-success-banner" style="display: none;">
+        <span class="alert-icon">✅</span>
+        <span class="alert-msg">
+          <strong id="foundCount">0</strong> artículos encontrados con éxito. Puedes seleccionarlos y configurar la extracción.
+        </span>
+      </div>
+
+      <!-- Results Container -->
+      <div id="resultsWrapper" class="results-wrapper" style="display: none;">
+        <div class="results-toolbar">
+          <div class="results-toolbar-left">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="selectAllCheck">
+              <span class="checkmark"></span>
+              <span class="checkbox-text">Seleccionar todos los artículos</span>
+            </label>
+            <span class="selection-counter" id="selectionCounter">0 seleccionados</span>
+          </div>
+          <div class="results-toolbar-right">
+            <button id="btnProceedToExtract" class="btn-secondary" disabled>
+              <span>Continuar a Extracción con IA</span>
+              <span class="btn-arrow">➔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Articles Cards List -->
+        <div id="articlesList" class="articles-list">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: EXTRACCIÓN & CITACIÓN               -->
+    <!-- ========================================== -->
+    <section id="tab-extract" class="tab-pane">
+      <div class="extract-layout">
+        <!-- Configuration Card -->
+        <div class="card extract-config-card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="title-icon">⚙️</span>
+              Configuración de Extracción de Matriz
+            </h2>
+            <p class="card-subtitle">
+              Define los parámetros del análisis con Groq AI para estructurar la tabla académica exactamente como en el artículo de referencia.
+            </p>
+          </div>
+
+          <div class="config-grid">
+            <div class="form-group">
+              <label for="citationStyleSelect" class="form-label">Estilo de Cita Bibliográfica</label>
+              <select id="citationStyleSelect" class="form-control">
+                <option value="APA 7" selected>Normas APA 7ma Edición (Recomendado)</option>
+                <option value="IEEE">Normas IEEE</option>
+                <option value="Vancouver">Normas Vancouver</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="groqModelSelect" class="form-label">Modelo de Groq AI</label>
+              <select id="groqModelSelect" class="form-control">
+                <option value="llama-3.3-70b-versatile" selected>Llama 3.3 70B Versatile (Máxima Precisión)</option>
+                <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant (Ultra Rápido)</option>
+                <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="tableNumberInput" class="form-label">Número de Tabla</label>
+              <input type="text" id="tableNumberInput" class="form-control" value="Tabla 4">
+            </div>
+
+            <div class="form-group">
+              <label for="journalHeaderInput" class="form-label">Encabezado de Revista / Institución</label>
+              <input type="text" id="journalHeaderInput" class="form-control" value="VISIÓN EMPRESARIAL">
+            </div>
+
+            <div class="form-group full-width">
+              <label for="tableTitleInput" class="form-label">Título Académico de la Tabla</label>
+              <input type="text" id="tableTitleInput" class="form-control" value="Técnicas y algoritmos utilizados en estudios sobre deserción universitaria">
+            </div>
+          </div>
+
+          <!-- Extraction Target Preview (Matching Image 1 columns) -->
+          <div class="target-columns-preview">
+            <div class="preview-badge">
+              <strong>Columna 1:</strong> Autor (ej. <em>Cedillo et al., 2024</em>)
+            </div>
+            <div class="preview-badge">
+              <strong>Columna 2:</strong> Técnicas / Algoritmos (Lista estructurada de modelos)
+            </div>
+            <div class="preview-badge">
+              <strong>Columna 3:</strong> Mejor precisión (Algoritmo ganador o métrica)
+            </div>
+          </div>
+
+          <!-- Progress Box (Hidden until execution) -->
+          <div id="extractionProgressBox" class="progress-box" style="display: none;">
+            <div class="progress-status-line">
+              <span id="progressStatusText">Procesando artículos con Groq...</span>
+              <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button id="btnStartExtraction" class="btn-primary btn-extract-hero">
+              <span class="btn-icon">⚡</span>
+              <span class="btn-text">Extraer Matriz con Groq AI</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Selected Articles Summary -->
+        <div class="card selected-summary-card">
+          <div class="card-header">
+            <h3 class="card-title-sm">
+              Artículos Listos para Extracción (<span id="extractCountDisplay">0</span>)
+            </h3>
+          </div>
+          <div id="selectedArticlesReview" class="selected-review-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: MATRIZ & DOCUMENTOS (Image 1)       -->
+    <!-- ========================================== -->
+    <section id="tab-matrix" class="tab-pane">
+      
+      <!-- Toolbar & Export Actions -->
+      <div class="matrix-action-toolbar">
+        <div class="toolbar-title">
+          <h2>Vista Previa del Documento Científico</h2>
+          <span class="toolbar-hint">Formato idéntico a publicación de revista (Imagen 1)</span>
+        </div>
+        <div class="export-buttons-group">
+          <button id="btnDownloadDocx" class="btn-export btn-word">
+            <span class="export-icon">📄</span>
+            <span>Descargar Word (.docx)</span>
+          </button>
+          <button id="btnDownloadXlsx" class="btn-export btn-excel">
+            <span class="export-icon">📊</span>
+            <span>Descargar Excel (.xlsx)</span>
+          </button>
+          <button id="btnCopyMarkdown" class="btn-export btn-copy">
+            <span class="export-icon">📋</span>
+            <span>Copiar Tabla</span>
+          </button>
+          <button id="btnToggleEditMode" class="btn-export btn-edit">
+            <span class="export-icon">✏️</span>
+            <span>Editar Celdas</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Journal Document Paper View (Matching Image 1!) -->
+      <div class="academic-sheet-wrapper">
+        <article class="academic-sheet" id="academicSheet">
+          
+          <!-- Journal Header (Like VISIÓN EMPRESARIAL in Image 1) -->
+          <div class="journal-header-area">
+            <div class="journal-emblem">
+              <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+                <circle cx="50" cy="50" r="46" stroke="#4A5568" stroke-width="4"></circle>
+                <circle cx="50" cy="50" r="30" stroke="#4A5568" stroke-width="4"></circle>
+                <circle cx="50" cy="50" r="14" fill="#4A5568"></circle>
+              </svg>
+            </div>
+            <div class="journal-title-text" id="displayJournalHeader" contenteditable="false">
+              VISIÓN EMPRESARIAL
+            </div>
+          </div>
+
+          <!-- Academic Table Header (APA 7: Table X / Title in italic) -->
+          <div class="table-header-block">
+            <div class="table-number" id="displayTableNumber" contenteditable="false">
+              Tabla 4
+            </div>
+            <div class="table-caption" id="displayTableTitle" contenteditable="false">
+              Técnicas y algoritmos utilizados en estudios sobre deserción universitaria
+            </div>
+          </div>
+
+          <!-- The Academic Table (APA 7 Table Style) -->
+          <div class="table-responsive">
+            <table class="academic-table" id="academicTable">
+              <thead>
+                <tr>
+                  <th style="width: 25%;">Autor</th>
+                  <th style="width: 50%;">Técnicas/Algoritmos</th>
+                  <th style="width: 25%;">Mejor precisión</th>
+                </tr>
+              </thead>
+              <tbody id="academicTableBody">
+                <!-- Dynamically populated or filled with sample data -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Narrative Synthesis Section (Like Image 1) -->
+          <div class="narrative-section">
+            <p id="narrativeParagraph" class="narrative-text" contenteditable="false">
+              <strong>Árboles de decisión.</strong> Los árboles de decisión, incluyendo algoritmos como C4.5 y Random Forest, han demostrado ser altamente efectivos en la clasificación de estudiantes con riesgo de deserción. Estos modelos permiten crear reglas claras y visuales que segmentan a los estudiantes con base en características como desempeño académico, número de materias reprobadas o asistencia.
+            </p>
+          </div>
+
+          <!-- References Section -->
+          <div class="references-section">
+            <h4 class="references-title">Referencias</h4>
+            <div id="referencesList" class="references-list">
+              <!-- Dynamically populated citations -->
+            </div>
+          </div>
+
+          <!-- Journal Footer (From Image 1 bottom) -->
+          <footer class="journal-page-footer">
+            <span id="footerNote">Visión Empresarial · Revista Científica Multidisciplinaria</span>
+          </footer>
+
+        </article>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL: GROQ API KEY CONFIGURATION         -->
+  <!-- ========================================== -->
+  <div class="modal-overlay" id="groqModal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3>🔑 Configuración de Groq API</h3>
+          <p>Potencia la búsqueda semántica, extracción de algoritmos y síntesis académica.</p>
+        </div>
+        <button class="btn-close-modal" id="btnCloseGroqModal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="groqApiKeyInput" class="form-label">
+            Groq API Key (<span class="code-tag">gsk_...</span>)
+          </label>
+          <input 
+            type="password" 
+            id="groqApiKeyInput" 
+            class="form-control" 
+            placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          >
+          <small class="form-hint">
+            Obtén tu clave gratuita en <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com</a>. La clave se guarda de manera segura en tu navegador y para Render en las variables de entorno.
+          </small>
+        </div>
+
+        <div id="groqKeyStatusAlert" class="modal-alert" style="display: none;"></div>
+
+        <div class="groq-tips-box">
+          <div class="tip-item">
+            <strong>🚀 En Render:</strong> Solo añade la variable de entorno <code>GROQ_API_KEY</code> en tu panel de Render.
+          </div>
+          <div class="tip-item">
+            <strong>💡 Modo de Demostración:</strong> Si aún no tienes clave, el sistema cuenta con extracción heurística inteligente y un botón para cargar los datos exactos de la Imagen 1.
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="btnTestGroqKey">Probar Conexión</button>
+        <button type="button" class="btn-primary" id="btnSaveGroqKey">Guardar Clave</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: GIT & RENDER DEPLOY GUIDE          -->
+  <!-- ========================================== -->
+  <div class="modal-overlay" id="gitModal" style="display: none;">
+    <div class="modal-card modal-large">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3>🚀 Guía de Despliegue en Git y Render</h3>
+          <p>Pasos listos para subir este proyecto a GitHub y publicarlo en producción en Render.</p>
+        </div>
+        <button class="btn-close-modal" id="btnCloseGitModal">&times;</button>
+      </div>
+
+      <div class="modal-body deploy-guide">
+        <h4>1. Subir a tu repositorio de GitHub</h4>
+        <div class="code-box">
+          <pre><code>git init
+git add .
+git commit -m "feat: extractor cientifico de literatura y matrices"
+git branch -M main
+git remote add origin https://github.com/TU_USUARIO/TU_REPOSITORIO.git
+git push -u origin main</code></pre>
+        </div>
+
+        <h4>2. Desplegar en Render (Web Service)</h4>
+        <ol class="deploy-steps">
+          <li>Crea una cuenta o inicia sesión en <a href="https://dashboard.render.com" target="_blank">render.com</a>.</li>
+          <li>Haz clic en <strong>New +</strong> y selecciona <strong>Web Service</strong>.</li>
+          <li>Conecta tu repositorio de GitHub recién creado.</li>
+          <li>Configura los campos:
+            <ul>
+              <li><strong>Runtime:</strong> <code>Python 3</code></li>
+              <li><strong>Build Command:</strong> <code>pip install -r requirements.txt</code></li>
+              <li><strong>Start Command:</strong> <code>uvicorn main:app --host 0.0.0.0 --port $PORT</code></li>
+            </ul>
+          </li>
+          <li>En la sección <strong>Environment Variables</strong>, añade:
+            <ul>
+              <li>Key: <code>GROQ_API_KEY</code></li>
+              <li>Value: <em>Tu clave de Groq (gsk_...)</em></li>
+            </ul>
+          </li>
+          <li>Haz clic en <strong>Create Web Service</strong>. ¡En 2 minutos tu aplicativo estará en vivo en tu URL <code>.onrender.com</code>!</li>
+        </ol>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="btnCloseGitModal2">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
